@@ -35,6 +35,7 @@ const self = {
   },
 
   partials: null,
+  fileCache: {},
 
   loadPartials: (dirName) => {
     const fileNames = fs.readdirSync(dirName);
@@ -86,14 +87,14 @@ const self = {
     // console.log(`Renderer iterations: ${iteration}`);
 
     if (self.config.minifyHtml.enable) {
-      html = htmlMinify.minify(html, self.minifyHtml.options);
+      html = htmlMinify.minify(html, self.config.minifyHtml.options);
     }
 
     return html;
   },
 
   sendFile: (req, res, htmlDocFileName) => {
-    const fullPath = path.join(self.htmlDocsDir, htmlDocFileName);
+    const fullPath = path.join(self.config.htmlDocsDir, htmlDocFileName);
 
     if (!fs.existsSync(fullPath)) {
       // res.set('Content-Type', 'text/plain');
@@ -109,16 +110,6 @@ const self = {
 
         const rawHtml = fs.readFileSync(fullPath);
         renderedHtml = self.render(rawHtml);
-
-        //         const matches = renderedHtml.match(/const tiwos = {/) || [];
-        //         if (matches.length === 1) {
-        //           renderedHtml = renderedHtml.replace(
-        //             'const tiwos = {',
-        //             `const tiwos = {
-        // settings: ${JSON.stringify(res.locals.settings)},
-        // `,
-        //           );
-        //         }
 
         if (self.config.cache.enabled) {
           self.fileCache[fullPath] = {
