@@ -1,0 +1,30 @@
+{
+  "name": "@headwall/qw-render",
+  "version": "0.2.0",
+  "description": "Quick Web Render for JS partials",
+  "keywords": [
+    "node",
+    "javascript",
+    "partials",
+    "template",
+    "cache"
+  ],
+  "homepage": "https://github.com/headwalluk/qw-render#readme",
+  "bugs": {
+    "url": "https://github.com/headwalluk/qw-render/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/headwalluk/qw-render.git"
+  },
+  "license": "MIT",
+  "author": "headwalluk",
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "node ./test/run-tests.js"
+  },
+  "dependencies": {
+    "minify-html": "^0.0.2"
+  }
+}
