@@ -14,7 +14,6 @@ const self = {
     htmlPartialsDir: '',
     partialsFileMatch: /^[a-zA-Z0-9\-].*\.(s)?html$/,
     maxRecursion: 50,
-    htmlOutputFilter: null,
     cache: {
       enabled: true,
     },
@@ -33,6 +32,8 @@ const self = {
       },
     },
   },
+
+  htmlOutputFilter: null,
 
   partials: null,
   fileCache: {},
@@ -121,6 +122,10 @@ const self = {
 
       if (self.htmlOutputFilter) {
         renderedHtml = self.htmlOutputFilter(renderedHtml, { req, res, htmlDocFileName });
+      }
+
+      if (!renderedHtml) {
+        renderedHtml = '';
       }
 
       res.set('Content-Type', 'text/html');
