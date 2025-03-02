@@ -1,6 +1,6 @@
 {
   "name": "@headwall/qw-render",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Quick Web Render for JS partials",
   "keywords": [
     "node",
@@ -22,9 +22,14 @@
   "type": "commonjs",
   "main": "./src/index.js",
   "scripts": {
-    "test": "node ./test/run-tests.js"
+    "test": "nodemon ./test/src/app.js"
+  },
+  "devDependencies": {
+    "express": "^4.21.2",
+    "html-minifier": "^4.0.0",
+    "nodemon": "^3.1.9"
   },
   "dependencies": {
-    "minify-html": "^0.0.2"
+    "mime-types": "^2.1.35"
   }
 }
