@@ -6,7 +6,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const htmlMinify = require('minify-html');
 const mime = require('mime-types');
 
 const self = {

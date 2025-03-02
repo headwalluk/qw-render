@@ -1,6 +1,6 @@
 # Changelog for @headwall/qw-render
 
-## 1.0.0 - 1.0.4 :: 2025-03-02
+## 1.0.0 - 1.0.5 :: 2025-03-02
 
 * Initial commit
 * Basic renderer
