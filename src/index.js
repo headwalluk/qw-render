@@ -22,6 +22,7 @@ const self = {
       enabledForText: true,
       enabledForBinaries: true,
     },
+    isAutoAssetInjectionEnabled: true,
   },
 
   filterNames: [
@@ -129,32 +130,33 @@ const self = {
     self.flushFileCache();
   },
 
-  filterIndex: 0,
-
   addFilter: (filterName, priority, callback) => {
+    if (!self.filterNames.includes(filterName)) {
+      throw Error(`Invalid filter name: ${filterName}`);
+    }
+
     if (isNaN((priority = parseInt(priority)))) {
       priority = self.DEFAULT_FILTER_PRIORITY;
     }
-    priority = Math.min(Math.max(parseInt(priority), 0), 999);
 
-    const slug = String(priority).padStart('3', '0') + `-filter-${self.filterIndex}`;
-    ++self.filterIndex;
+    priority = Math.min(Math.max(parseInt(priority), 0), 999);
 
     if (!self.filters[filterName]) {
       self.filters[filterName] = {};
     }
 
+    const filterIndex = Object.keys(self.filters[filterName]).length;
+    const slug = String(priority).padStart('3', '0') + `-${filterName}-${String(filterIndex).padStart(3, '0')}`;
+
     self.filters[filterName][slug] = callback;
 
-    // console.log(`Added HTML output filter: ${slug}`);
-    // self.htmlOutputFilters[slug] = callback;
+    // console.log(`Added filter: ${slug}`);
   },
 
   applyFilters: (filterName, content, params) => {
-    // self.filterNames.forEach((filterName))
     if (!self.filters[filterName]) {
       // No filters defined
-      console.log(`No "${filterName}" filters specified`);
+      // console.log(`No "${filterName}" filters specified`);
     } else {
       // console.log(`Applying "${filterName}" filters`);
       const slugs = Object.keys(self.filters[filterName]);
@@ -188,11 +190,6 @@ const self = {
       ++iteration;
     }
 
-    // console.log(`Renderer iterations: ${iteration}`);
-    // if (self.config.minifyHtml.enable) {
-    //   html = htmlMinify.minify(html, self.config.minifyHtml.options);
-    // }
-
     return html;
   },
 
@@ -225,7 +222,12 @@ const self = {
 
   autoInjectPageAssets: (content, params) => {
     let contentType = mime.lookup(params.fileName);
-    if (contentType == 'text/html') {
+
+    if (!self.config.isAutoAssetInjectionEnabled) {
+      // ...
+    } else if (contentType != 'text/html') {
+      // ...
+    } else {
       let additionalHtml = '';
 
       const filePath = path.dirname(params.fileName);
@@ -268,6 +270,13 @@ const self = {
     const isText = contentType && contentType.startsWith('text/');
     const isHtml = contentType == 'text/html';
 
+    const filterParams = {
+      fileName,
+      fullPath,
+      contentType,
+      isTextContent: isText,
+    };
+
     if (self.fileCache && self.fileCache[fullPath]) {
       // console.log(`Cache hit: ${fullPath}`);
       contentBody = self.fileCache[fullPath];
@@ -288,12 +297,7 @@ const self = {
         contentBody = self.render(rawHtml);
         // if (contentType == 'text/html') {
         if (isText) {
-          contentBody = self.applyFilters('renderedHtml', contentBody, {
-            fileName,
-            fullPath,
-            contentType,
-            isTextContent: isText,
-          });
+          contentBody = self.applyFilters('renderedHtml', contentBody, filterParams);
         }
       }
 
@@ -307,14 +311,8 @@ const self = {
     } else {
       contentType && res.set('Content-Type', contentType);
 
-      // if (contentType == 'text/html') {
       if (isText) {
-        contentBody = self.applyFilters('outputHtml', contentBody, {
-          fileName,
-          fullPath,
-          contentType,
-          isTextContent: isText,
-        });
+        contentBody = self.applyFilters('outputHtml', contentBody, filterParams);
       }
 
       res.setHeader('Content-Length', `${contentBody.length}`);

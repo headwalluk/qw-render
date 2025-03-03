@@ -1,6 +1,6 @@
 {
   "name": "@headwall/qw-render",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Quick Web Render for JS partials",
   "keywords": [
     "node",

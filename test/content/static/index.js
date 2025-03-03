@@ -14,5 +14,10 @@
     if (configElement) {
       configElement.innerText = JSON.stringify(qwRenderTest.config, null, 4);
     }
+
+    const serverDatetimeElement = document.querySelector('#server-datetime');
+    if (serverDatetimeElement) {
+      serverDatetimeElement.innerText = new Date(qwRenderTest.dateTime);
+    }
   }
 })();
