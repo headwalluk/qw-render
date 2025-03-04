@@ -2,6 +2,8 @@
  * Example web app : app.js
  */
 
+'use strict';
+
 const express = require('express');
 const config = require('./config');
 const path = require('path');

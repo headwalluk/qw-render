@@ -15,3 +15,4 @@
   * Test theme overlay
   * Test output filters by adding minification of HTML, CSS and JS
 * Moved minification out of the test app and into the main qw-render library.
+* Added req and res to the params when running text filters, so the filters can access things like res.locals
