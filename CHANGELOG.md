@@ -1,6 +1,6 @@
 # Changelog for @headwall/qw-render
 
-## 1.0.0 - 1.0.6 :: 2025-03-03
+## 1.0.0 - 1.0.7 :: 2025-03-04
 
 * Initial commit
 * Basic renderer
@@ -14,4 +14,4 @@
 * Replaced the basic test suite with a text/example web app using nodemon
   * Test theme overlay
   * Test output filters by adding minification of HTML, CSS and JS
- 
+* Moved minification out of the test app and into the main qw-render library.
