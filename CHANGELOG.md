@@ -1,6 +1,6 @@
 # Changelog for @headwall/qw-render
 
-## 1.0.0 - 1.0.7 :: 2025-03-04
+## 1.0.0 - 1.0.9 :: 2025-03-04
 
 * Initial commit
 * Basic renderer
@@ -16,3 +16,4 @@
   * Test output filters by adding minification of HTML, CSS and JS
 * Moved minification out of the test app and into the main qw-render library.
 * Added req and res to the params when running text filters, so the filters can access things like res.locals
+* Tidy up and version bump
