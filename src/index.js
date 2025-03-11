@@ -15,7 +15,8 @@ const self = {
   config: {
     staticContentDirs: [],
     htmlPartialsDirs: [],
-    partialsFileMatch: /^[a-zA-Z0-9\-].*\.(s|p)?html$/,
+    // partialsExtensions: ['html', 'shtml', 'svg'],
+    // partialsFileMatch: /^[a-zA-Z0-9\-\/].*\.(s|p)?html$/,
     defaultIndex: 'index.html',
     maxRecursion: 50,
     cache: {
@@ -72,18 +73,27 @@ const self = {
     self.config.htmlPartialsDirs.forEach((dirName) => {
       // console.log(`Loading partials from ${dirName}`);
 
-      const fileNames = fs.readdirSync(dirName);
+      const fileNames = fs.readdirSync(dirName, { recursive: true });
       if (!Array.isArray(fileNames)) {
         throw Error(`loadPartials: Failed to read dir ${dirName}`);
       }
 
       fileNames.forEach((fileName) => {
-        if (fileName.match(self.config.partialsFileMatch)) {
-          const fullPath = path.join(dirName, fileName);
-          const slug = path.parse(fileName).name;
+        const fullPath = path.join(dirName, fileName);
+        const stats = fs.statSync(fullPath);
 
+        if (stats.isFile()) {
+          let slug = fileName;
           // console.log(`Load partial: ${fileName} fullPath=${fullPath} slug=${slug}`);
+          self.partials[slug] = {
+            fileName,
+            fullPath,
+            slug,
+            snippet: fs.readFileSync(fullPath).toString(),
+          };
 
+          slug = path.join(path.parse(fileName).dir, path.parse(fileName).name);
+          // console.log(`Load partial: ${fileName} fullPath=${fullPath} slug=${slug}`);
           self.partials[slug] = {
             fileName,
             fullPath,

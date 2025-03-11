@@ -87,3 +87,13 @@ a {
 main .global-inner {
   padding: 20px;
 }
+
+.icon {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  position: relative;
+  top: 0.2em;
+  margin-right: 0.5em;
+  white-space: nowrap;
+}
