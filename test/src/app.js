@@ -9,6 +9,20 @@ const config = require('./config');
 const path = require('path');
 const renderer = require('../../src/index.js');
 
+const packageDef = require('../../package.json');
+
+renderer.data.package = {
+  version: packageDef.version,
+  name: packageDef.name,
+};
+
+renderer.data.motd = 'Hello world';
+
+// Not really necessary, because the data keys are rebuild on first-render.
+// But it's good practice to invalidate the data keys after adding/removing
+// a key to the data store.
+renderer.invalidateDataKeys();
+
 renderer.setContentDir(path.join(path.dirname(__dirname), 'content'));
 
 if (config.theme) {

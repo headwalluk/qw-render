@@ -1,2 +1,4 @@
 # qw-render
-Quick Web Render for JS partials
+
+Quick Web Renderer for JS partials
+

@@ -97,3 +97,20 @@ main .global-inner {
   margin-right: 0.5em;
   white-space: nowrap;
 }
+
+/**
+ * site footer
+ */
+footer .global-inner {
+  padding: 20px;
+}
+
+footer .global-inner aside {
+  border: 2px dashed lightgrey;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+footer .global-inner aside th {
+  text-align: left;
+}

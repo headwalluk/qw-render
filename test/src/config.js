@@ -4,7 +4,7 @@
 
 module.exports = {
   server: {
-    port: process.env.QW_PORT || 3000,
+    port: process.env.QW_PORT || 3040,
   },
   theme: 'theme-one', //  Set this to null to test it without a theme overlay
   minify: {

@@ -1,5 +1,13 @@
 # Changelog for @headwall/qw-render
 
+1.0.12 :: 2025-04-21
+
+* Added support for dynamic JS data tags.
+
+## 1.0.11 :: 2025-04-13
+
+* Update dependencies and version bump.
+
 ## 1.0.10 :: 2025-03-11
 
 * Partials can now be in nested directories, and can (optionally) include a file extension when referenced, so you can do things like {{{icons/user.svg}}} as well as {{{icons/user}}}. This was to make it east to pull in large icons sets as SVG files, while still being able to include ".html" snippets. You could also use this to include JSON files.

@@ -41,6 +41,12 @@ const self = {
     },
   },
 
+  regexDataTags: /\{\{(\.?\w+)+\}\}/g,
+
+  data: {},
+  dataKeys: {},
+  areDataKeysClean: false,
+
   minifier: null,
 
   filterNames: [
@@ -62,6 +68,7 @@ const self = {
 
     console.log(`qw-render : initialise`);
 
+    self.addFilter('renderedTextContent', 4, self.substituteData);
     self.addFilter('renderedTextContent', 5, self.autoInjectPageAssets);
     self.addFilter('renderedTextContent', self.DEFAULT_FILTER_PRIORITY, self.minifyConent);
 
@@ -245,6 +252,67 @@ const self = {
 
   flushPartials: () => {
     Object.keys(self.partials).forEach((key) => delete self.partials[key]);
+  },
+
+  invalidateDataKeys: () => {
+    self.areDataKeysClean = false;
+  },
+
+  rebuildDataKeys: (container = null, parentKey = null) => {
+    let isRoot = false;
+    if (!container) {
+      container = self.data;
+      parentKey = '';
+      isRoot = true;
+      while (self.dataKeys.length > 0) {
+        self.dataKeys.pop();
+      }
+    }
+
+    for (const localKey in container) {
+      const fullKey = parentKey + localKey;
+      if (typeof container[localKey] === 'undefined') {
+        // ...
+      } else if (typeof container[localKey] == 'object') {
+        self.rebuildDataKeys(container[localKey], !!fullKey ? fullKey + '.' : fullKey);
+      } else {
+        self.dataKeys[fullKey] = container;
+      }
+    }
+
+    if (isRoot) {
+      self.areDataKeysClean = true;
+    }
+  },
+
+  getDataByKey: (fullKey) => {
+    let value = null;
+
+    if (!!fullKey && typeof self.dataKeys[fullKey] !== 'undefined') {
+      const container = self.dataKeys[fullKey];
+      const localKey = fullKey.split('.').pop();
+      value = container[localKey];
+    }
+
+    return value;
+  },
+
+  substituteData: (content, params) => {
+    if (!self.areDataKeysClean) {
+      self.rebuildDataKeys();
+      console.log(`Data keys`);
+      console.log(self.dataKeys);
+    }
+
+    const matches = content.matchAll(self.regexDataTags);
+    for (const match of matches) {
+      const fullKey = match[0].substring(2, match[0].length - 2);
+      const value = self.getDataByKey(fullKey);
+      console.log(`${fullKey} => ${value}`);
+      content = content.replaceAll(match[0], value);
+    }
+
+    return content;
   },
 
   autoInjectPageAssets: (content, params) => {
