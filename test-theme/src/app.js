@@ -18,13 +18,17 @@ renderer.data.package = {
 
 renderer.data.motd = 'Hello world';
 
-// Not really necessary, because the data keys are rebuild on first-render.
-// But it's good practice to invalidate the data keys after adding/removing
-// a key to the data store.
 renderer.invalidateDataKeys();
 
+/**
+ * Set the main content directory....
+ */
 renderer.setContentDir(path.join(path.dirname(__dirname), 'content'));
 
+/**
+ * ...then add a theme overlay, which is just like content directory but with
+ * file overrides.
+ */
 if (config.theme) {
   renderer.applyThemeOverlay(path.join(path.dirname(__dirname), config.theme));
 }
@@ -46,7 +50,7 @@ renderer.addFilter('outputHtml', null, (content, params) => {
 const app = express();
 app.disable('x-powered-by');
 
-app.get([], (req, res) => {
+app.get(/.*/, (req, res) => {
   const url = URL.parse(`${req.protocol}://${req.hostname}:${config.server.port}${req.originalUrl}`);
   renderer.sendFile(req, res, url.pathname);
 });

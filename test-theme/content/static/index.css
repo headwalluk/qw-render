@@ -1,0 +1,15 @@
+/**
+ * index.css
+ */
+
+h1 {
+  background-color: yellow;
+}
+
+#config {
+  background-color: #f8f8f8;
+  padding: 10px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  border-radius: 10px;
+}

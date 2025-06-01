@@ -1,0 +1,116 @@
+/**
+ * test-core.css
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  background-color: white;
+  color: #333;
+  font-family: 'sans-serif';
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+@media (min-width: 1024px) {
+  .global-inner {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/**
+ * masthead
+ */
+#masthead {
+  background-color: #eee;
+  padding: 20px;
+}
+
+#masthead .site-logo {
+  width: 140px;
+  height: auto;
+}
+
+#masthead .inner {
+  padding: 20px;
+}
+
+/**
+ * Primary navigation
+ */
+#primary-nav {
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #ddd;
+}
+
+#primary-nav .inner {
+  padding: 10px;
+}
+
+#primary-nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#primary-nav ul a {
+  padding: 10px;
+  display: block;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  #primary-nav ul {
+    display: flex;
+    flex-direction: row;
+    /* gap: 10px; */
+  }
+
+  #primary-nav ul li:not(:last-child) a {
+    border-right: 1px dotted #888;
+  }
+}
+
+/**
+ * main content area
+ */
+
+main .global-inner {
+  padding: 20px;
+}
+
+.icon {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  position: relative;
+  top: 0.2em;
+  margin-right: 0.5em;
+  white-space: nowrap;
+}
+
+/**
+ * site footer
+ */
+footer .global-inner {
+  padding: 20px;
+}
+
+footer .global-inner aside {
+  border: 2px dashed lightgrey;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+footer .global-inner aside th {
+  text-align: left;
+}

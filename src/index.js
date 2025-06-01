@@ -75,6 +75,16 @@ const self = {
     self.isInitialised = true;
   },
 
+  setMinifyOptions(isEnabled, options = null) {
+    self.config.minify.isEnabled = Boolean(isEnabled);
+
+    if (options) {
+      console.log('Setting minify options');
+      console.log(typeof options);
+      self.config.minify.options = options;
+    }
+  },
+
   loadPartials: (dirName) => {
     self.flushPartials();
     self.config.htmlPartialsDirs.forEach((dirName) => {
@@ -300,15 +310,20 @@ const self = {
   substituteData: (content, params) => {
     if (!self.areDataKeysClean) {
       self.rebuildDataKeys();
-      console.log(`Data keys`);
-      console.log(self.dataKeys);
+
+      // Diagnostics
+      // console.log(`Data keys`);
+      // console.log(self.dataKeys);
     }
 
     const matches = content.matchAll(self.regexDataTags);
     for (const match of matches) {
       const fullKey = match[0].substring(2, match[0].length - 2);
       const value = self.getDataByKey(fullKey);
-      console.log(`${fullKey} => ${value}`);
+
+      // Diagnostics
+      // console.log(`${fullKey} => ${value}`);
+
       content = content.replaceAll(match[0], value);
     }
 
