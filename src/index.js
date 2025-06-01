@@ -41,6 +41,7 @@ const self = {
     },
   },
 
+  regexIgnoreFiles: /(~|\.bak)$/g,
   regexDataTags: /\{\{(\.?\w+)+\}\}/g,
 
   data: {},
@@ -97,9 +98,15 @@ const self = {
 
       fileNames.forEach((fileName) => {
         const fullPath = path.join(dirName, fileName);
+
         const stats = fs.statSync(fullPath);
 
-        if (stats.isFile()) {
+        if (!stats.isFile()) {
+          // ...
+        } else if (fileName.match(self.regexIgnoreFiles)) {
+          // Ignore file.
+          // console.log(`ignore: ${fileName}`);
+        } else {
           let slug = fileName;
           // console.log(`Load partial: ${fileName} fullPath=${fullPath} slug=${slug}`);
           self.partials[slug] = {
